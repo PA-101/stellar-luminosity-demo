@@ -31,7 +31,9 @@ def luminosity(T):
 # T is read directly from the session state
 T = st.session_state.T_current
 L_current = luminosity(T)
-color_current = cm.plasma_r((T - T_min) / (T_max - T_min))
+
+# --- COLOR CHANGE: Using RdYlBu map for Red (Cool) to Blue (Hot) ---
+color_current = cm.RdYlBu((T - T_min) / (T_max - T_min))
 
 
 # 1. Create and Display the Matplotlib Figure (GRAPH)
@@ -53,8 +55,12 @@ ax.yaxis.set_major_formatter(FormatStrFormatter('%1.1e'))
 # --- Plot Data and Annotations ---
 T_vals = np.linspace(T_min, T_max, 400)
 L_vals = luminosity(T_vals)
-colors = cm.plasma_r((T_vals - T_min) / (T_max - T_min))
+
+# --- COLOR CHANGE: Apply RdYlBu map to the scatter plot ---
+colors = cm.RdYlBu((T_vals - T_min) / (T_max - T_min))
 ax.scatter(T_vals, L_vals, c=colors, s=15, edgecolor='none', alpha=0.5)
+
+# Highlight the selected star
 ax.plot(T, L_current, 'o', markersize=16, markeredgecolor='white', color=color_current)
 
 ax.set_title("Stellar Luminosity vs. Temperature", color='white', fontsize=16, pad=15)
@@ -67,7 +73,7 @@ law_text = (
     r"$\sigma = 5.67\times10^{-8}\ \mathrm{W\,m^{-2}\,K^{-4}}$"
 )
 ax.text(0.98, 0.95, law_text, color='white', fontsize=11, ha='right', va='top', transform=ax.transAxes, bbox=dict(facecolor='black', edgecolor='gray', alpha=0.5, boxstyle='round,pad=0.5'))
-ax.text(0.5, 0.5, "y (Luminosity) = x^4 (T^4)", color='orange', fontsize=13, ha='center', transform=ax.transAxes)
+ax.text(0.5, 0.5, "Luminosity $\\propto T^4$", color='orange', fontsize=13, ha='center', transform=ax.transAxes)
 
 # Display the Matplotlib figure in Streamlit
 st.pyplot(fig)
