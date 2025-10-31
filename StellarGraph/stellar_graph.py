@@ -74,7 +74,7 @@ st.pyplot(fig)
 
 
 # 2. Render the SLIDER (Visually Under the Graph)
-# FIX: The 'value' parameter is removed. The widget now reads its initial state and updates 
+# The 'value' parameter is removed. The widget now reads its initial state and updates 
 # its value via the 'key'='T_current' linkage.
 st.slider(
     "Select Star Temperature (K)",
@@ -88,10 +88,29 @@ st.slider(
 
 # 3. Render the TEXT DETAILS (Visually Under the Slider)
 st.markdown("---") 
+
+# --- UPDATED LUMINOSITY DISPLAY ---
+# Format L_current as scientific notation (e.g., '1.23e+27' or '1.23e-08')
+formatted_L = "{:.2e}".format(L_current)
+
+# Logic to split the string and handle both positive and negative exponents
+if 'e+' in formatted_L:
+    base, exponent = formatted_L.split('e+')
+elif 'e-' in formatted_L:
+    base, exponent = formatted_L.split('e-')
+    exponent = '-' + exponent # Prefix with negative sign
+else:
+    # Handles non-scientific notation case (unlikely here)
+    base = formatted_L
+    exponent = '0'
+
+# Use LaTeX syntax ($...$) to display the scientific notation cleanly as X.XX times 10 to the YY
 st.markdown(
-    f"**Calculated Luminosity ($L$):** <span style='color:orange; font-size:1.3em;'>{L_current:1.2e} Watts</span>",
+    f"**Calculated Luminosity ($L$):** <span style='color:orange; font-size:1.3em;'>${base} \\times 10^{{{exponent}}}$ Watts</span>",
     unsafe_allow_html=True
 )
+# --- END OF UPDATED LUMINOSITY DISPLAY ---
+
 st.markdown(
     f"Relative to the Sun ($3.83 \\times 10^{{26}}$ W), this star is **{L_current/3.83e26:1.1f} times** brighter.",
     unsafe_allow_html=True
