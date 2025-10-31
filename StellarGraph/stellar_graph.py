@@ -67,7 +67,7 @@ law_text = (
     r"$\sigma = 5.67\times10^{-8}\ \mathrm{W\,m^{-2}\,K^{-4}}$"
 )
 ax.text(0.98, 0.95, law_text, color='white', fontsize=11, ha='right', va='top', transform=ax.transAxes, bbox=dict(facecolor='black', edgecolor='gray', alpha=0.5, boxstyle='round,pad=0.5'))
-ax.text(0.5, 0.5, "Luminosity $\\propto T^4$", color='orange', fontsize=13, ha='center', transform=ax.transAxes)
+ax.text(0.5, 0.5, "y (Luminosity) = x^4 (T^4)", color='orange', fontsize=13, ha='center', transform=ax.transAxes)
 
 # Display the Matplotlib figure in Streamlit
 st.pyplot(fig)
